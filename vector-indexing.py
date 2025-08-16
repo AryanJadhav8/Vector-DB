@@ -45,3 +45,32 @@ db.movies.createSearchIndex(
      ]
   }
 );
+
+"""
+Create a Vector Search Query with a Filter
+The following code uses $vectorSearch with a filter on the
+year field to pre-filter the data before performing a vector search.
+"""
+
+pipeline = [
+    {
+        "$vectorSearch": {
+            "index": "vectorPlotIndex",
+            "path": "plot_embedding",
+            "queryVector": embedding,
+            "numCandidates": 100,
+            "filter": {"year": {"$gt": 2010}},
+            "limit": 10
+        }
+    },
+    {
+        "$project": {
+            "title": 1,
+            "plot": 1,
+            "year": 1,
+            "score": {"$meta": "vectorSearchScore"}
+        }
+    }
+]
+
+x = collection.aggregate(pipeline)
