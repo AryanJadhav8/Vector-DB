@@ -34,9 +34,7 @@ collectionName = "chunked_data"
 collection = client[dbName][collectionName]
 
 
-# -------------------------
 # 1. LOAD THE PDF DOCUMENT
-# -------------------------
 # Use PyPDFLoader to read the PDF into LangChain "Document" objects (page by page)
 loader = PyPDFLoader("./sample_files/mongodb.pdf")
 pages = loader.load()
@@ -48,9 +46,7 @@ for page in pages:
         cleaned_pages.append(page)
 
 
-# -------------------------
 # 2. SPLIT INTO CHUNKS
-# -------------------------
 # RecursiveCharacterTextSplitter splits text into chunks of max 500 characters
 # with 150 characters overlapping between chunks (to preserve context).
 text_splitter = RecursiveCharacterTextSplitter(
@@ -59,9 +55,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 
-# -------------------------
 # 3. DEFINE METADATA SCHEMA
-# -------------------------
 # Metadata will enrich each document with structured info.
 # Example schema: title (string), keywords (list of strings), hasCode (boolean).
 schema = {
@@ -74,9 +68,7 @@ schema = {
 }
 
 
-# -------------------------
 # 4. METADATA TAGGING WITH LLM
-# -------------------------
 # Create an OpenAI LLM (ChatGPT-3.5-turbo) that will analyze documents
 # and automatically extract metadata according to schema above.
 llm = ChatOpenAI(
@@ -92,23 +84,17 @@ document_transformer = create_metadata_tagger(metadata_schema=schema, llm=llm)
 docs = document_transformer.transform_documents(cleaned_pages)
 
 
-# -------------------------
 # 5. APPLY TEXT SPLITTING
-# -------------------------
 # Split enriched documents into smaller chunks for embeddings
 split_docs = text_splitter.split_documents(docs)
 
 
-# -------------------------
 # 6. CREATE EMBEDDINGS
-# -------------------------
 # Create embeddings for chunks using OpenAI's embedding model
 embeddings = OpenAIEmbeddings(openai_api_key=key_param.LLM_API_KEY)
 
 
-# -------------------------
 # 7. STORE IN MONGODB VECTOR SEARCH
-# -------------------------
 # Push chunks + embeddings into MongoDB Atlas Vector Search collection
 # This allows you to later perform semantic search over the PDF content
 vectorStore = MongoDBAtlasVectorSearch.from_documents(
