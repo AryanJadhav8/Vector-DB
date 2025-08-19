@@ -11,7 +11,8 @@ load_data.py file
 
 This code ingests a pdf, removes empty pages, chunks the pages into paragraphs, generates metadata for the chunks, creates embeddings, and stores the chunks and their embeddings in a MongoDB collection.
 """
-
+#import libraries
+from dotenv import load_dotenv
 from pymongo import MongoClient
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_community.vectorstores import MongoDBAtlasVectorSearch
