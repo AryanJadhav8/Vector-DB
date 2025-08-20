@@ -57,7 +57,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 
 # 3. DEFINE METADATA SCHEMA
-# Metadata will enrich each document with structured info.
+# Metadata will enrich each document with structured info. help in prefiltering
 # Example schema: title (string), keywords (list of strings), hasCode (boolean).
 schema = {
     "properties": {
