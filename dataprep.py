@@ -74,7 +74,7 @@ schema = {
 # and automatically extract metadata according to schema above.
 llm = ChatOpenAI(
     openai_api_key=key_param.LLM_API_KEY,
-    temperature=0,  # deterministic output
+    temperature=0,  # deterministic output (temp-randomness)
     model="gpt-3.5-turbo"
 )
 
