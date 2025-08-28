@@ -65,7 +65,7 @@ retrieved_docs = [match["metadata"]["text"] for match in results["matches"]]
 # 8. Build final prompt with retrieved context
 context = "\n".join(retrieved_docs)
 prompt = f"""
-You are a helpful cooking assistant.
+You are a helpful cooking assistant.    
 
 Context:
 {context}

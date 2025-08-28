@@ -52,7 +52,7 @@ for page in pages:
 # with 150 characters overlapping between chunks (to preserve context).
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=500,
-    chunk_overlap=150
+    chunk_overlap=150 #overlapping chunks preserve context from being left out
 )
 
 
